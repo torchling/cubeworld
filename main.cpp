@@ -18,13 +18,16 @@
 #include <GL\glut.h>
 #include <math.h>
 
-
+int spacecanvus[50][2500];
 using namespace std;
 vector<float> vect;
 GLfloat xRotated, yRotated, zRotated, xMove, yMove, zMove, xpos, ypos, zpos;
 int i=0;
 int j=0;
 int v=0;
+int x=0;
+int y=0;
+int z=0;
 
 /*----------------------------------------------------------------------*/
 /*
@@ -83,29 +86,37 @@ void myKeys(unsigned char key, int x, int y)
         case 'j':
             /* return */
             yRotated+=0.1;
+            y+=1;
             break;
         case 'k':
             /* return */
             yRotated=0.0;
             zRotated=0.0;
+            y=0;
+            z=0;
             break;
         case 'l':
             /*  */
             yRotated-=0.1;
+            y-=1;
             break;
         case 'i':
             /*  */
             zRotated+=0.1;
+            z+=1;
             break;
         case ',':
             /*  */
             zRotated-=0.1;
+            z-=1;
             break;
         case 'c':
             /*  */
             vect.clear();
             yRotated=0.0;
             zRotated=0.0;
+            y=0;
+            z=0;
             xMove=yMove=zMove=0.0;
             break;
     }
