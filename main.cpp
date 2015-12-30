@@ -18,22 +18,68 @@
 #include <GL\glut.h>
 #include <math.h>
 
-int spacecanvus[50][2500];
+
 using namespace std;
 vector<float> vect;
 GLfloat xRotated, yRotated, zRotated, xMove, yMove, zMove, xpos, ypos, zpos;
 int i=0;
 int j=0;
 int v=0;
-int x=0;
-int y=0;
-int z=0;
 
 /*----------------------------------------------------------------------*/
 /*
  ** These functions implement a simple trackball-like motion control.
  */
 int			winWidth = 1000, winHeight = 700;
+
+
+//Struct
+struct cubecolor{
+
+    float r;
+    float b;
+    float g;
+
+};
+
+cubecolor now ={ 1.0f , 1.0f , 1.0f };
+
+cubecolor becomeYellow()
+{
+    cubecolor temp = { 1.0f , 0.5f , 0.0f };
+    return temp;
+}
+
+cubecolor becomeRed()
+{
+    cubecolor temp = { 1.0f , 0.0f , 0.0f };
+    return temp;
+}
+
+cubecolor becomeBlue()
+{
+    cubecolor temp = { 0.0f , 0.0f , 1.0f };
+    return temp;
+}
+
+cubecolor becomeGreen()
+{
+    cubecolor temp = { 0.0f , 1.0f , 0.0f };
+    return temp;
+}
+
+cubecolor becomeOrange()
+{
+    cubecolor temp = { 1.0f , 1.0f , 0.0f };
+    return temp;
+}
+
+cubecolor becomeWhite()
+{
+    cubecolor temp = { 1.0f , 1.0f , 1.0f };
+    return temp;
+}
+
 
 
 void myKeys(unsigned char key, int x, int y)
@@ -73,6 +119,7 @@ void myKeys(unsigned char key, int x, int y)
 
         case 'u':
             /* draw */
+            //vect.push_back(draw);
             vect.push_back(xMove);
             vect.push_back(yMove);
             vect.push_back(zMove);
@@ -85,39 +132,39 @@ void myKeys(unsigned char key, int x, int y)
 
         case 'j':
             /* return */
-            yRotated+=0.1;
-            y+=1;
+            yRotated-=0.1;
             break;
         case 'k':
             /* return */
             yRotated=0.0;
             zRotated=0.0;
-            y=0;
-            z=0;
             break;
         case 'l':
             /*  */
-            yRotated-=0.1;
-            y-=1;
+            yRotated+=0.1;
             break;
         case 'i':
             /*  */
-            zRotated+=0.1;
-            z+=1;
+            zRotated-=0.1;
             break;
         case ',':
             /*  */
-            zRotated-=0.1;
-            z-=1;
+            zRotated+=0.1;
             break;
         case 'c':
             /*  */
             vect.clear();
             yRotated=0.0;
             zRotated=0.0;
-            y=0;
-            z=0;
             xMove=yMove=zMove=0.0;
+            break;
+
+        case '1':
+            now = becomeYellow();
+            break;
+
+        case '2':
+            now = becomeGreen();
             break;
     }
     glutPostRedisplay();
@@ -126,37 +173,36 @@ void myKeys(unsigned char key, int x, int y)
 void init(void)
 {
     glClearColor(0.7,0.7,0.7,0);
-
 }
 
 void CubeOrigin(void)
 {
-    glColor3f(1.0f,0.0f,0.0f);    // Color white
+    glColor3f(1.0f,0.0f,0.0f);    // Color red
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Top)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Top)
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Bottom Left Of The Quad (Top)
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Bottom Right Of The Quad (Top)
-    glColor3f(1.0f,0.0f,0.0f);    // Color white
+    glColor3f(1.0f,0.0f,0.0f);    // Color red
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Top Right Of The Quad (Bottom)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Top Left Of The Quad (Bottom)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Bottom)
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Bottom Right Of The Quad (Bottom)
-    glColor3f(1.0f,0.0f,0.0f);    // Color white
+    glColor3f(1.0f,0.0f,0.0f);    // Color red
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Front)
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Front)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Front)
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Front)
-    glColor3f(1.0f,0.0f,0.0f);    // Color white
+    glColor3f(1.0f,0.0f,0.0f);    // Color red
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Top Right Of The Quad (Back)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Top Left Of The Quad (Back)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Bottom Left Of The Quad (Back)
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Bottom Right Of The Quad (Back)
-    glColor3f(1.0f,0.0f,0.0f);    // Color white
+    glColor3f(1.0f,0.0f,0.0f);    // Color red
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Left)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Left)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Left)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Left)
-    glColor3f(1.0f,0.0f,0.0f);    // Color white
+    glColor3f(1.0f,0.0f,0.0f);    // Color red
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Right)
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Right)
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Right)
@@ -197,34 +243,34 @@ void CubeIndex(void)
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Bottom Right Of The Quad (Right)
 }
 
-void Cube2(void)
+void Cube2(struct cubecolor cube2)
 {
-    glColor3f(1.0f,0.0f,0.0f);    // Color red
+    glColor3f( cube2.r , cube2.g , cube2.r );    // Color now
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Top)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Top)
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Bottom Left Of The Quad (Top)
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Bottom Right Of The Quad (Top)
-    glColor3f(1.0f,0.5f,0.0f);    // Color Yellow
+    glColor3f( cube2.r , cube2.g , cube2.r );    // Color now
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Top Right Of The Quad (Bottom)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Top Left Of The Quad (Bottom)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Bottom)
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Bottom Right Of The Quad (Bottom)
-    glColor3f(0.0f,0.0f,1.0f);    // Color blue
+    glColor3f( cube2.r , cube2.g , cube2.r );   // Color now
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Front)
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Front)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Front)
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Front)
-    glColor3f(0.0f,1.0f,0.0f);    // Color green
+    glColor3f( cube2.r , cube2.g , cube2.r );    // Color now
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Top Right Of The Quad (Back)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Top Left Of The Quad (Back)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Bottom Left Of The Quad (Back)
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Bottom Right Of The Quad (Back)
-    glColor3f(1.0f,1.0f,1.0f);    // Color white
+    glColor3f( cube2.r , cube2.g , cube2.r );   // Color now
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Left)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Left)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Left)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Left)
-    glColor3f(1.0f,1.0f,0.0f);    // Color orange
+    glColor3f( cube2.r , cube2.g , cube2.r );   // Color now
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Right)
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Right)
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Right)
@@ -240,13 +286,14 @@ void drawOtherCubes(void)
         zpos=vect[j+2];
         glPushMatrix();
         glTranslatef(xpos, ypos, zpos-19.5);//0.0, 0.0, 0.0
-        glBegin(GL_QUADS);        // Draw The Cube Using quads
-        Cube2();
+        glBegin(GL_QUADS);
+        // Draw The Cube Using quads
+        Cube2(now);
         glEnd();
         glPopMatrix();
     }
 }
-void delcube()
+void ror()
 {
 
 }
@@ -290,6 +337,11 @@ void DisplayCube(void)
 
     glTranslatef(xMove,yMove,zMove-19.5);//0.0, 0.0, 0.0
     glRotatef(xRotated,1.0,1.0,0.0);
+    /*glRotatef(xRotated,1.0,0.0,0.0);
+     // rotation about Y axis
+     //glRotatef(yRotated,0.0,1.0,0.0);
+     // rotation about Z axis
+     //glRotatef(zRotated,0.0,0.0,1.0);*/
 
     glBegin(GL_QUADS);        // Draw The Cube for Index
     CubeIndex();
@@ -301,8 +353,6 @@ void DisplayCube(void)
 
 void animation(void)
 {
-
-    //yRotated += 0.01;
     /*
      xRotated += 0.02;
      DisplayCube();
@@ -335,7 +385,7 @@ int main(int argc, char** argv){
     glutInit(&argc, argv);
     //we initizlilze the glut. functions
     glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
-    glutInitWindowPosition(100, 10);
+    glutInitWindowPosition(100, 100);
     glutInitWindowSize(winWidth,winHeight);
     glutCreateWindow("Cube World");//argv[0]);
 
@@ -360,4 +410,4 @@ int main(int argc, char** argv){
     glutIdleFunc(animation);
     glutMainLoop();
     return 0;
-}
+} //- See more at: http://www.codemiles.com/c-opengl-examples/draw-3d-cube-using-opengl-t9018.html#sthash.qRbBhLrX.dpuf
