@@ -32,6 +32,7 @@ int xArray=22, zArray=22, yArray=22;
 
 int	winWidth = 1000, winHeight = 700;
 int cubenumber[45][2025];
+int cubeCount = 0;
 
 //Struct
 struct cubecolor{
@@ -91,38 +92,45 @@ void myKeys(unsigned char key, int x, int y)
             /* go up */
             yMove+=0.4;
             yArray+=1;
+            if(yArray>44){ yArray=44; yMove=8.8; }
             break;
         case 's':
             /* go down */
             yMove-=0.4;
             yArray-=1;
+            if(yArray<0){ yArray=0; yMove=-8.8; }
             break;
         case 'a':
             /* go left */
             xMove-=0.4;
             xArray-=1;
+            if(xArray>44){ xArray=44; xMove=8.8; }
             break;
         case 'd':
             /* go right */
             xMove+=0.4;
             xArray+=1;
+            if(xArray>44){ xArray=44; xMove=8.8; }
             break;
 
         case 'q':
             /* go farther */
             zMove-=0.4;
             zArray-=1;
+            if(zArray<0){ zArray=0; zMove=-8.8; }
             break;
 
         case 'e':
             /* come closer */
             zMove+=0.4;
             zArray+=1;
+            if(zArray>44){ zArray=44; zMove=8.8; }
             break;
 
         case 'r':
             /* return */
             xMove=yMove=zMove=0.0;
+            xArray=yArray=zArray=0;
             break;
 
         case 'u':
@@ -135,10 +143,10 @@ void myKeys(unsigned char key, int x, int y)
             vect.push_back(now.r);
             vect.push_back(now.g);
             vect.push_back(now.b);
-            /*xpos=xMove;
-             ypos=yMove;
-             zpos=zMove;*/
+            vect.push_back(1.0);
 
+            cubenumber[yArray][xArray*45+zArray]=cubeCount;
+            cubeCount+=1;
             break;
 
         case 'j':
@@ -162,12 +170,17 @@ void myKeys(unsigned char key, int x, int y)
             /*  */
             zRotated+=0.1;
             break;
+
         case 'c':
-            /*  */
             vect.clear();
             yRotated=0.0;
             zRotated=0.0;
             xMove=yMove=zMove=0.0;
+            break;
+
+        case 'y':
+            /* cut */
+            vect[7*cubenumber[yArray][xArray*45+zArray]+6]=0;
             break;
 
         case '1':
@@ -307,7 +320,8 @@ void Cube2(struct cubecolor cube2)
 
 void drawOtherCubes(void)
 {
-    for(int j=0;j<vect.size();j=j+6){
+    for(int j=0;j<vect.size();j=j+7){
+        if(vect[j+6]==1){
         xpos=vect[j];
         ypos=vect[j+1];
         zpos=vect[j+2];
@@ -319,6 +333,7 @@ void drawOtherCubes(void)
         Cube2(prenow);
         glEnd();
         glPopMatrix();
+        }
     }
 }
 
