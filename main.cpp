@@ -18,35 +18,36 @@
 #include <GL\glut.h>
 #include <math.h>
 
-
-using namespace std;
-vector<float> vect;
-GLfloat xRotated, yRotated, zRotated, xMove, yMove, zMove, xpos, ypos, zpos;
-int i=0;
-int j=0;
-int v=0;
-
 /*----------------------------------------------------------------------*/
-/*
- ** These functions implement a simple trackball-like motion control.
- */
-int			winWidth = 1000, winHeight = 700;
+using namespace std;
 
+vector<float> vect;
+vector<float> vectmirror;
+
+GLfloat xRotated, yRotated, zRotated, xMove, yMove, zMove, xpos, ypos, zpos;
+
+
+int xArray=22, zArray=22, yArray=22;
+
+
+int	winWidth = 1000, winHeight = 700;
+int cubenumber[45][2025];
 
 //Struct
 struct cubecolor{
 
     float r;
-    float b;
     float g;
+    float b;
 
 };
 
-cubecolor now ={ 1.0f , 1.0f , 1.0f };
+cubecolor now    = { 1.0f , 1.0f , 1.0f };
+cubecolor prenow = { 0.5f , 0.5f , 0.5f };
 
 cubecolor becomeYellow()
 {
-    cubecolor temp = { 1.0f , 0.5f , 0.0f };
+    cubecolor temp = { 1.0f , 1.0f , 0.0f };
     return temp;
 }
 
@@ -70,7 +71,7 @@ cubecolor becomeGreen()
 
 cubecolor becomeOrange()
 {
-    cubecolor temp = { 1.0f , 1.0f , 0.0f };
+    cubecolor temp = { 1.0f , 0.5f , 0.0f };
     return temp;
 }
 
@@ -89,29 +90,36 @@ void myKeys(unsigned char key, int x, int y)
         case 'w':
             /* go up */
             yMove+=0.4;
+            yArray+=1;
             break;
         case 's':
             /* go down */
             yMove-=0.4;
+            yArray-=1;
             break;
         case 'a':
             /* go left */
             xMove-=0.4;
+            xArray-=1;
             break;
         case 'd':
             /* go right */
             xMove+=0.4;
+            xArray+=1;
             break;
 
         case 'q':
             /* go farther */
             zMove-=0.4;
+            zArray-=1;
             break;
 
         case 'e':
             /* come closer */
             zMove+=0.4;
+            zArray+=1;
             break;
+
         case 'r':
             /* return */
             xMove=yMove=zMove=0.0;
@@ -124,6 +132,9 @@ void myKeys(unsigned char key, int x, int y)
             vect.push_back(yMove);
             vect.push_back(zMove);
 
+            vect.push_back(now.r);
+            vect.push_back(now.g);
+            vect.push_back(now.b);
             /*xpos=xMove;
              ypos=yMove;
              zpos=zMove;*/
@@ -160,17 +171,33 @@ void myKeys(unsigned char key, int x, int y)
             break;
 
         case '1':
-            now = becomeYellow();
+            now = becomeRed();
             break;
 
         case '2':
+            now = becomeOrange();
+            break;
+
+        case '3':
+            now = becomeYellow();
+            break;
+
+        case '4':
             now = becomeGreen();
+            break;
+
+        case '5':
+            now = becomeBlue();
+            break;
+
+        case '6':
+            now = becomeWhite();
             break;
     }
     glutPostRedisplay();
 }
 
-void init(void)
+void backgroundColor(void)
 {
     glClearColor(0.7,0.7,0.7,0);
 }
@@ -211,32 +238,32 @@ void CubeOrigin(void)
 
 void CubeIndex(void)
 {
-    glColor3f(1.0f,1.0f,1.0f);    // Color white
+    glColor3f(0.0f,0.0f,0.0f);    // Color white
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Top)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Top)
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Bottom Left Of The Quad (Top)
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Bottom Right Of The Quad (Top)
-    glColor3f(1.0f,1.0f,1.0f);    // Color white
+    glColor3f(0.0f,0.0f,0.0f);    // Color white
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Top Right Of The Quad (Bottom)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Top Left Of The Quad (Bottom)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Bottom)
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Bottom Right Of The Quad (Bottom)
-    glColor3f(1.0f,1.0f,1.0f);    // Color white
+    glColor3f(0.0f,0.0f,0.0f);    // Color white
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Front)
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Front)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Front)
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Front)
-    glColor3f(1.0f,1.0f,1.0f);    // Color white
+    glColor3f(0.0f,0.0f,0.0f);    // Color white
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Top Right Of The Quad (Back)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Top Left Of The Quad (Back)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Bottom Left Of The Quad (Back)
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Bottom Right Of The Quad (Back)
-    glColor3f(1.0f,1.0f,1.0f);    // Color white
+    glColor3f(0.0f,0.0f,0.0f);    // Color white
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Left)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Left)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Left)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Left)
-    glColor3f(1.0f,1.0f,1.0f);    // Color white
+    glColor3f(0.0f,0.0f,0.0f);    // Color white
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Right)
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Right)
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Right)
@@ -245,32 +272,32 @@ void CubeIndex(void)
 
 void Cube2(struct cubecolor cube2)
 {
-    glColor3f( cube2.r , cube2.g , cube2.r );    // Color now
+    glColor3f( cube2.r , cube2.g , cube2.b );    // Color now
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Top)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Top)
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Bottom Left Of The Quad (Top)
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Bottom Right Of The Quad (Top)
-    glColor3f( cube2.r , cube2.g , cube2.r );    // Color now
+    glColor3f( cube2.r , cube2.g , cube2.b );    // Color now
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Top Right Of The Quad (Bottom)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Top Left Of The Quad (Bottom)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Bottom)
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Bottom Right Of The Quad (Bottom)
-    glColor3f( cube2.r , cube2.g , cube2.r );   // Color now
+    glColor3f( cube2.r , cube2.g , cube2.b );   // Color now
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Front)
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Front)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Front)
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Front)
-    glColor3f( cube2.r , cube2.g , cube2.r );    // Color now
+    glColor3f( cube2.r , cube2.g , cube2.b );    // Color now
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Top Right Of The Quad (Back)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Top Left Of The Quad (Back)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Bottom Left Of The Quad (Back)
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Bottom Right Of The Quad (Back)
-    glColor3f( cube2.r , cube2.g , cube2.r );   // Color now
+    glColor3f( cube2.r , cube2.g , cube2.b );   // Color now
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Left)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Left)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Left)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Left)
-    glColor3f( cube2.r , cube2.g , cube2.r );   // Color now
+    glColor3f( cube2.r , cube2.g , cube2.b );   // Color now
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Right)
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Right)
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Right)
@@ -280,7 +307,7 @@ void Cube2(struct cubecolor cube2)
 
 void drawOtherCubes(void)
 {
-    for(int j=0;j<vect.size();j=j+3){
+    for(int j=0;j<vect.size();j=j+6){
         xpos=vect[j];
         ypos=vect[j+1];
         zpos=vect[j+2];
@@ -288,14 +315,11 @@ void drawOtherCubes(void)
         glTranslatef(xpos, ypos, zpos-19.5);//0.0, 0.0, 0.0
         glBegin(GL_QUADS);
         // Draw The Cube Using quads
-        Cube2(now);
+        prenow = { vect[j+3] , vect[j+4] , vect[j+5] };
+        Cube2(prenow);
         glEnd();
         glPopMatrix();
     }
-}
-void ror()
-{
-
 }
 
 void DisplayCube(void)
@@ -393,7 +417,7 @@ int main(int argc, char** argv){
     // Accept fragment if it closer to the camera than the former one
     glDepthFunc(GL_LESS);
 
-    init();
+    backgroundColor();
     glutDisplayFunc(DisplayCube);
     //glutDisplayFunc(DisplayCube2);
     glutKeyboardFunc(myKeys);
@@ -410,4 +434,4 @@ int main(int argc, char** argv){
     glutIdleFunc(animation);
     glutMainLoop();
     return 0;
-} //- See more at: http://www.codemiles.com/c-opengl-examples/draw-3d-cube-using-opengl-t9018.html#sthash.qRbBhLrX.dpuf
+}
