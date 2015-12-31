@@ -1,16 +1,14 @@
 /*
  * GLUT Shapes Demo
  *
- * Written by Richard Sung November 2015
+ * Started by Richard Sung in November 2015
  *
  *
  */
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
+
 #include <windows.h>
 #include <GL/glut.h>
-#endif
+
 
 #include <vector>
 #include <stdlib.h>
@@ -22,7 +20,7 @@
 using namespace std;
 
 vector<float> vect;
-vector<float> vectmirror;
+int cubenumber[45][2025];
 
 GLfloat xRotated, yRotated, zRotated, xMove, yMove, zMove, xpos, ypos, zpos;
 
@@ -31,7 +29,7 @@ int xArray=22, zArray=22, yArray=22;
 
 
 int	winWidth = 1000, winHeight = 700;
-int cubenumber[45][2025];
+
 int cubeCount = 0;
 
 //Struct
@@ -136,6 +134,7 @@ void myKeys(unsigned char key, int x, int y)
         case 'u':
             /* draw */
             //vect.push_back(draw);
+            if(cubenumber[yArray][xArray*45+zArray]==0){
             vect.push_back(xMove);
             vect.push_back(yMove);
             vect.push_back(zMove);
@@ -147,6 +146,7 @@ void myKeys(unsigned char key, int x, int y)
 
             cubenumber[yArray][xArray*45+zArray]=cubeCount;
             cubeCount+=1;
+            }
             break;
 
         case 'j':
@@ -179,8 +179,9 @@ void myKeys(unsigned char key, int x, int y)
             break;
 
         case 'y':
-            /* cut */
+            /* delete cube */
             vect[7*cubenumber[yArray][xArray*45+zArray]+6]=0;
+            cubenumber[yArray][xArray*45+zArray]=0;
             break;
 
         case '1':
