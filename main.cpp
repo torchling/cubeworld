@@ -25,6 +25,7 @@ int cubenumber[45][2025];
 
 GLfloat xRotated, yRotated, zRotated, xMove, yMove, zMove, xpos, ypos, zpos;
 
+short latiRotate, longRotate;
 
 int xArray=22, zArray=22, yArray=22;
 
@@ -82,7 +83,6 @@ cubecolor becomeWhite()
 }
 
 
-
 void myKeys(unsigned char key, int x, int y)
 {
     switch(key)
@@ -99,31 +99,113 @@ void myKeys(unsigned char key, int x, int y)
             yArray-=1;
             if(yArray<0){ yArray=0; yMove=-8.8; }
             break;
+
         case 'a':
+            if((latiRotate<20)||(latiRotate>=140)){
             /* go left */
             xMove-=0.4;
             xArray-=1;
             if(xArray>44){ xArray=44; xMove=8.8; }
-            break;
-        case 'd':
-            /* go right */
-            xMove+=0.4;
-            xArray+=1;
-            if(xArray>44){ xArray=44; xMove=8.8; }
-            break;
-
-        case 'q':
+            }
+            if((latiRotate<140)&&(latiRotate>=100)){
             /* go farther */
             zMove-=0.4;
             zArray-=1;
             if(zArray<0){ zArray=0; zMove=-8.8; }
-            break;
-
-        case 'e':
+            }
+            if((latiRotate<100)&&(latiRotate>=60)){
+            /* go right */
+            xMove+=0.4;
+            xArray+=1;
+            if(xArray>44){ xArray=44; xMove=8.8; }
+            }
+            if((latiRotate<60)&&(latiRotate>=20)){
             /* come closer */
             zMove+=0.4;
             zArray+=1;
             if(zArray>44){ zArray=44; zMove=8.8; }
+            }
+            break;
+
+        case 'd':
+            if((latiRotate<20)||(latiRotate>=140)){
+            /* go right */
+            xMove+=0.4;
+            xArray+=1;
+            if(xArray>44){ xArray=44; xMove=8.8; }
+            }
+            if((latiRotate<140)&&(latiRotate>=100)){
+            /* come closer */
+            zMove+=0.4;
+            zArray+=1;
+            if(zArray>44){ zArray=44; zMove=8.8; }
+            }
+            if((latiRotate<100)&&(latiRotate>=60)){
+            /* go left */
+            xMove-=0.4;
+            xArray-=1;
+            if(xArray>44){ xArray=44; xMove=8.8; }
+            }
+            if((latiRotate<60)&&(latiRotate>=20)){
+            /* go farther */
+            zMove-=0.4;
+            zArray-=1;
+            if(zArray<0){ zArray=0; zMove=-8.8; }
+            }
+            break;
+
+        case 'e':
+            if((latiRotate<20)||(latiRotate>=140)){
+            /* go farther */
+            zMove-=0.4;
+            zArray-=1;
+            if(zArray<0){ zArray=0; zMove=-8.8; }
+            }
+            if((latiRotate<140)&&(latiRotate>=100)){
+            /* go right */
+            xMove+=0.4;
+            xArray+=1;
+            if(xArray>44){ xArray=44; xMove=8.8; }
+            }
+            if((latiRotate<100)&&(latiRotate>=60)){
+            /* come closer */
+            zMove+=0.4;
+            zArray+=1;
+            if(zArray>44){ zArray=44; zMove=8.8; }
+            }
+            if((latiRotate<60)&&(latiRotate>=20)){
+            /* go left */
+            xMove-=0.4;
+            xArray-=1;
+            if(xArray>44){ xArray=44; xMove=8.8; }
+            }
+            break;
+
+        case 'q':
+            if((latiRotate<20)||(latiRotate>=140)){
+            /* come closer */
+            zMove+=0.4;
+            zArray+=1;
+            if(zArray>44){ zArray=44; zMove=8.8; }
+            }
+            if((latiRotate<140)&&(latiRotate>=100)){
+            /* go left */
+            xMove-=0.4;
+            xArray-=1;
+            if(xArray>44){ xArray=44; xMove=8.8; }
+            }
+            if((latiRotate<100)&&(latiRotate>=60)){
+            /* go farther */
+            zMove-=0.4;
+            zArray-=1;
+            if(zArray<0){ zArray=0; zMove=-8.8; }
+            }
+            if((latiRotate<60)&&(latiRotate>=20)){
+            /* go right */
+            xMove+=0.4;
+            xArray+=1;
+            if(xArray>44){ xArray=44; xMove=8.8; }
+            }
             break;
 
         case 'r':
@@ -152,24 +234,34 @@ void myKeys(unsigned char key, int x, int y)
 
         case 'j':
             /* return */
+            latiRotate-=1;
             yRotated-=0.1;
+            if(latiRotate<0)latiRotate=160+latiRotate;
             break;
         case 'k':
             /* return */
+            latiRotate=0;
+            longRotate=0;
             yRotated=0.0;
             zRotated=0.0;
             break;
         case 'l':
             /*  */
+            latiRotate+=1;
             yRotated+=0.1;
+            if(latiRotate>=160)latiRotate=latiRotate%160;
             break;
         case 'i':
             /*  */
+            longRotate-=1;
             zRotated-=0.1;
+            if(longRotate<0)longRotate=160+longRotate;
             break;
         case ',':
             /*  */
+            longRotate+=1;
             zRotated+=0.1;
+            if(longRotate>=160)longRotate=longRotate%160;
             break;
 
         case 'c':
@@ -219,32 +311,32 @@ void backgroundColor(void)
 
 void CubeOrigin(void)
 {
-    glColor3f(1.0f,0.0f,0.0f);    // Color red
+    glColor3f(1.0f,0.0f,0.0f);    // Top Color red
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Top)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Top)
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Bottom Left Of The Quad (Top)
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Bottom Right Of The Quad (Top)
-    glColor3f(1.0f,0.0f,0.0f);    // Color red
+    glColor3f(1.0f,0.0f,0.0f);    // Bottom Color red
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Top Right Of The Quad (Bottom)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Top Left Of The Quad (Bottom)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Bottom)
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Bottom Right Of The Quad (Bottom)
-    glColor3f(0.8f,0.0f,0.0f);    // Color red
+    glColor3f(1.0f,0.0f,0.0f);    // Front Color red
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Front)
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Front)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Front)
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Front)
-    glColor3f(0.8f,0.0f,0.0f);    // Color red
+    glColor3f(1.0f,0.0f,0.0f);    // Back Color red
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Top Right Of The Quad (Back)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Top Left Of The Quad (Back)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Bottom Left Of The Quad (Back)
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Bottom Right Of The Quad (Back)
-    glColor3f(0.6f,0.0f,0.0f);    // Color red
+    glColor3f(1.0f,0.0f,0.0f);    // Left Color red
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Left)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Left)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Left)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Left)
-    glColor3f(0.6f,0.0f,0.0f);    // Color red
+    glColor3f(1.0f,0.0f,0.0f);    // Right Color red
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Right)
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Right)
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Right)
@@ -287,32 +379,74 @@ void CubeIndex(void)
 
 void Cube2(struct cubecolor cube2)
 {
-    glColor3f( cube2.r , cube2.g , cube2.b );    // Color now
+    if((longRotate>=15)&&(longRotate<65)){
+        glColor3f( cube2.r , cube2.g, cube2.b );    //TOP Color now
+    }
+    else{
+        glColor3f( cube2.r*0.6 , cube2.g*0.6, cube2.b*0.6 );
+    }
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Top)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Top)
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Bottom Left Of The Quad (Top)
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Bottom Right Of The Quad (Top)
-    glColor3f( cube2.r , cube2.g , cube2.b );    // Color now
+    if((longRotate>=95)&&(longRotate<145)){
+        glColor3f( cube2.r , cube2.g , cube2.b );   //BOTTOM Color now
+    }
+    else{
+        glColor3f( cube2.r*0.6 , cube2.g*0.6, cube2.b*0.6 );
+    }
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Top Right Of The Quad (Bottom)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Top Left Of The Quad (Bottom)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Bottom)
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Bottom Right Of The Quad (Bottom)
-    glColor3f( cube2.r , cube2.g , cube2.b );   // Color now
+    if(((((latiRotate<20)||(latiRotate>=140))||((latiRotate>=60)&&(latiRotate<100)))&&(((longRotate>=15)&&(longRotate<65))||((longRotate>=95)&&(longRotate<145)))) || ((((latiRotate>=20)&&(latiRotate<60))||((latiRotate>=100)&&(latiRotate<140)))&&(((longRotate<15)||(longRotate>=145))||((longRotate>=65)&&(longRotate<95))))){
+        glColor3f( cube2.r*0.8 , cube2.g*0.8 , cube2.b*0.8 );   //FRONT Color now
+    }
+    if((((latiRotate>=20)&&(latiRotate<60))||((latiRotate>=100)&&(latiRotate<140)))&&(((longRotate>=15)&&(longRotate<65))||((longRotate>=95)&&(longRotate<145)))){
+        glColor3f( cube2.r*0.6 , cube2.g*0.6 , cube2.b*0.6 );
+    }
+    if((((latiRotate<20)||(latiRotate>=140))||((latiRotate>=60)&&(latiRotate<100))) && (((longRotate<15)||(longRotate>=145))||((longRotate>=65)&&(longRotate<95)))){
+        glColor3f( cube2.r , cube2.g , cube2.b );
+    }
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Front)
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Front)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Front)
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Front)
-    glColor3f( cube2.r , cube2.g , cube2.b );    // Color now
+    if(((((latiRotate<20)||(latiRotate>=140))||((latiRotate>=60)&&(latiRotate<100)))&&(((longRotate>=15)&&(longRotate>=65))||((longRotate>=95)&&(longRotate<145)))) || ((((latiRotate>=20)&&(latiRotate<60))||((latiRotate>=100)&&(latiRotate<140)))&&(((longRotate<15)||(longRotate>=145))||((longRotate>=65)&&(longRotate<95))))){
+    glColor3f( cube2.r*0.8 , cube2.g*0.8 , cube2.b*0.8 );   //BACK Color now
+    }
+    if((((latiRotate>=20)&&(latiRotate<60))||((latiRotate>=100)&&(latiRotate<140)))&&(((longRotate>=15)&&(longRotate<65))||((longRotate>=95)&&(longRotate<145)))){
+        glColor3f( cube2.r*0.6 , cube2.g*0.6 , cube2.b*0.6 );
+    }
+    if((((latiRotate<20)||(latiRotate>=140))||((latiRotate>=60)&&(latiRotate<100))) && (((longRotate<15)||(longRotate>=145))||((longRotate>=65)&&(longRotate<95)))){
+        glColor3f( cube2.r , cube2.g , cube2.b );
+    }
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Top Right Of The Quad (Back)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Top Left Of The Quad (Back)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Bottom Left Of The Quad (Back)
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Bottom Right Of The Quad (Back)
-    glColor3f( cube2.r , cube2.g , cube2.b );   // Color now
+    if(((((latiRotate>=20)&&(latiRotate<60))||((latiRotate>=100)&&(latiRotate<140)))&&(((longRotate<15)||(longRotate>145))||((longRotate>=65)&&(longRotate<95)))) || ((((latiRotate>=60)&&(latiRotate<100))||((latiRotate>=140)||(latiRotate<20)))&&(((longRotate<15)||(longRotate>=145))||((longRotate>=65)&&(longRotate<95))))){
+    glColor3f( cube2.r*0.8 , cube2.g*0.8 , cube2.b*0.8 );   //LEFT Color now
+    }
+    if((((latiRotate>=60)&&(latiRotate<100))||((latiRotate>=140)||(latiRotate<20)))&&(((longRotate>=15)&&(longRotate<65))||((longRotate>=95)&&(longRotate<145)))){
+        glColor3f( cube2.r*0.6 , cube2.g*0.6 , cube2.b*0.6 );
+    }
+    if((((latiRotate>=20)&&(latiRotate<60))||((latiRotate>=100)&&(latiRotate<140))) && (((longRotate<15)||(longRotate>=145))||((longRotate>=65)&&(longRotate<95)))){
+        glColor3f( cube2.r , cube2.g , cube2.b );
+    }
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Left)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Left)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Left)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Left)
-    glColor3f( cube2.r , cube2.g , cube2.b );   // Color now
+    if(((((latiRotate>=20)&&(latiRotate<60))||((latiRotate>=100)&&(latiRotate<140)))&&(((longRotate<15)||(longRotate>=145))||((longRotate>=65)&&(longRotate<95)))) || ((((latiRotate>=60)&&(latiRotate<100))||((latiRotate>=140)||(latiRotate<20)))&&(((longRotate<15)||(longRotate>=145))||((longRotate>=65)&&(longRotate<95))))){
+    glColor3f( cube2.r*0.8 , cube2.g*0.8 , cube2.b*0.8 );   //RIGHT Color now
+    }
+    if((((latiRotate>=60)&&(latiRotate<100))||((latiRotate>=140)||(latiRotate<20)))&&(((longRotate>=15)&&(longRotate<65))||((longRotate>=95)&&(longRotate<145)))){
+        glColor3f( cube2.r*0.6 , cube2.g*0.6 , cube2.b*0.6 );
+    }
+    if((((latiRotate>=20)&&(latiRotate<60))||((latiRotate>=100)&&(latiRotate<140))) && (((longRotate<15)||(longRotate>=145))||((longRotate>=65)&&(longRotate<95)))){
+        glColor3f( cube2.r , cube2.g , cube2.b );
+    }
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Right)
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Right)
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Right)
@@ -323,7 +457,7 @@ void Cube2(struct cubecolor cube2)
 void drawOtherCubes(void)
 {
     for(int j=0;j<vect.size();j=j+7){
-        if(vect[j+6]==1){
+        if(vect[j+6]==1){ //draw it or not
         xpos=vect[j];
         ypos=vect[j+1];
         zpos=vect[j+2];
@@ -374,8 +508,12 @@ void DisplayCube(void)
     glEnd();
     glPopMatrix();
 
+
+    //draw the saved Cube
     drawOtherCubes();
 
+
+    //draw the Index Cube
     glTranslatef(xMove,yMove,zMove-19.5);//0.0, 0.0, 0.0
     glRotatef(xRotated,1.0,1.0,0.0);
     /*glRotatef(xRotated,1.0,0.0,0.0);
