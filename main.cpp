@@ -20,6 +20,7 @@
 using namespace std;
 
 vector<float> vect;
+
 int cubenumber[45][2025];
 
 GLfloat xRotated, yRotated, zRotated, xMove, yMove, zMove, xpos, ypos, zpos;
@@ -228,22 +229,22 @@ void CubeOrigin(void)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Top Left Of The Quad (Bottom)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Bottom)
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Bottom Right Of The Quad (Bottom)
-    glColor3f(1.0f,0.0f,0.0f);    // Color red
+    glColor3f(0.8f,0.0f,0.0f);    // Color red
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Front)
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Front)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Front)
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Front)
-    glColor3f(1.0f,0.0f,0.0f);    // Color red
+    glColor3f(0.8f,0.0f,0.0f);    // Color red
     glVertex3f( 0.2f,-0.2f,-0.2f);    // Top Right Of The Quad (Back)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Top Left Of The Quad (Back)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Bottom Left Of The Quad (Back)
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Bottom Right Of The Quad (Back)
-    glColor3f(1.0f,0.0f,0.0f);    // Color red
+    glColor3f(0.6f,0.0f,0.0f);    // Color red
     glVertex3f(-0.2f, 0.2f, 0.2f);    // Top Right Of The Quad (Left)
     glVertex3f(-0.2f, 0.2f,-0.2f);    // Top Left Of The Quad (Left)
     glVertex3f(-0.2f,-0.2f,-0.2f);    // Bottom Left Of The Quad (Left)
     glVertex3f(-0.2f,-0.2f, 0.2f);    // Bottom Right Of The Quad (Left)
-    glColor3f(1.0f,0.0f,0.0f);    // Color red
+    glColor3f(0.6f,0.0f,0.0f);    // Color red
     glVertex3f( 0.2f, 0.2f,-0.2f);    // Top Right Of The Quad (Right)
     glVertex3f( 0.2f, 0.2f, 0.2f);    // Top Left Of The Quad (Right)
     glVertex3f( 0.2f,-0.2f, 0.2f);    // Bottom Left Of The Quad (Right)

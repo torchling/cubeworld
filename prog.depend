@@ -210,7 +210,7 @@
 1301111156 c:\program files\codeblocks\mingw\include\oleidl.h
 	<objfwd.h>
 
-976692172 c:\program files\codeblocks\mingw\include\gl\glut.h
+976638172 c:\program files\codeblocks\mingw\include\gl\glut.h
 	<windows.h>
 	<GL/gl.h>
 	<GL/glu.h>
@@ -263,6 +263,15 @@
 	<math.h>
 
 1451538623 source:c:\users\asus\documents\github\cubeworld\main.cpp
+	<windows.h>
+	<GL/glut.h>
+	<vector>
+	<stdlib.h>
+	<stdio.h>
+	<GL\glut.h>
+	<math.h>
+
+1452491517 source:c:\users\user\documents\github\cubeworld\main.cpp
 	<windows.h>
 	<GL/glut.h>
 	<vector>
